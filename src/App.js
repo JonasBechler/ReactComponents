@@ -10,13 +10,19 @@ import RandomColorBG from './Components/RandomColorBG.js';
 
 import MyScrollArea from './Components/MyScrollArea.js';
 import MyDialog from './Components/MyDialog.js';
-import MyLabel from './Components/MyLable.js';
+import MyLabel from './Components/MyLabel.js';
 import MySelect from './Components/MySelect.js';
 
 import TouchTabs from './Components/TouchTabs.js';
 
 import HorizontalTouchScroll from './Components/HorizontalTouchScroll.js';
 import HoverInfo from './Components/HoverInfo.js';
+
+import WifiSettings from './Components/WifiSettings.js';
+import MyTabs from './Components/MyTabs.js';
+import MyCollapsible from './Components/MyCollapsible.js';
+
+import SettingsGeneratorExample from './Components/SettingsGeneratorExample.js';
 
 function App() {
   const [stringInput, setStringInput] = useState("");
@@ -28,22 +34,13 @@ function App() {
   const [selectInput, setSelectInput] = useState("");
 
   return (
-    <div className="flex flex-col">
-      <Header
-        left={<div>Header</div>}
-        center={<div>All Components</div>}
-        right={<div>Right</div>}
-      >
-
-        <div className='flex flex-wrap w-full justify-center'>
-
-          <TemplateContainer name='Still Empty'>
-
-          </TemplateContainer>
-
-          <TemplateContainer name='RandomColorBG'>
-            <RandomColorBG />
-          </TemplateContainer>
+    <Header
+      left={<div>Header</div>}
+      center={<div>All Components</div>}
+      right={<div>Right</div>}
+    >
+      <MyScrollArea>
+        <div className='flex flex-wrap w-full h-full justify-center items-center'>
 
           <TemplateContainer name='ScrollArea'>
             <MyScrollArea>
@@ -56,22 +53,52 @@ function App() {
             </MyScrollArea>
           </TemplateContainer>
 
-          <TemplateContainer name='MyDialog'>
-            <MyDialog
-              title={"Dialog Title"}
-              info={"Dialog Info"}
-            >
-              <div className='border-2 border-black'>
-                <div className='bg-blue-500 p-4 m-2 text-white'>Component 1</div>
-                <div className='bg-blue-500 p-4 m-2 text-white'>Component 2</div>
-                <div className='bg-blue-500 p-4 m-2 text-white'>Component 3</div>
-              </div>
-            </MyDialog>
+          <TemplateContainer name='HorizontalTouchScroll'>
+            <HorizontalTouchScroll
+              children_list={[
+                <div className='flex align-center justify-center bg-blue-500 h-full w-full text-white'>Component 1</div>,
+                <div className='flex align-center justify-center bg-blue-500 h-full w-full text-white'>Component 2</div>,
+                <div className='flex align-center justify-center bg-blue-500 h-full w-full text-white'>Component 3</div>,
+                <div className='flex align-center justify-center bg-blue-500 h-full w-full text-white'>Component 4</div>,
+                <div className='flex align-center justify-center bg-blue-500 h-full w-full text-white'>Component 5</div>
+              ]}
+              onScrollChange={(index) => console.log(index)}
+            />
           </TemplateContainer>
+
+          <TemplateContainer name='HoverInfo'>
+            <HoverInfo
+              title={"Info Title"}
+              info={"Info Info"}
+            />
+          </TemplateContainer>
+
+          <TemplateContainer name='MyTabs'>
+            <MyTabs
+              values={["Tab 1", "Tab 2", "Tab 3"]}
+              contents={[
+                <div className='bg-blue-500 p-4 m-2 text-white'>Tab 1 Content</div>,
+                <div className='bg-blue-500 p-4 m-2 text-white'>Tab 2 Content</div>,
+                <div className='bg-blue-500 p-4 m-2 text-white'>Tab 3 Content</div>
+              ]}
+            />
+          </TemplateContainer>
+
+          <TemplateContainer name='MyCollapsible'>
+            <MyCollapsible
+              title={"Collapsible Title"}
+              info={"Collapsible Info"}
+              children={<div className='bg-blue-500 p-4 m-2 text-white'>Collapsible Content</div>}
+            />
+          </TemplateContainer>
+
+          
+
           <TemplateContainer name='MyLabel'>
             <MyLabel
               name={"My Select"}
               id={"select_input"}
+              info={"My Select Info"}
             >
               <MySelect
                 option_values={["option1", "option2", "option3"]}
@@ -157,31 +184,39 @@ function App() {
             </MyLabel>
           </TemplateContainer>
 
+          <TemplateContainer name='MyDialog'>
+            <MyDialog
+              title={"Dialog Title"}
+            >
+              <div className='border-2 border-black'>
+                x                  <div className='bg-blue-500 p-4 m-2 text-white'>Component 1</div>
+                <div className='bg-blue-500 p-4 m-2 text-white'>Component 2</div>
+                <div className='bg-blue-500 p-4 m-2 text-white'>Component 3</div>
+              </div>
+            </MyDialog>
+          </TemplateContainer>
+
+
+
+          <TemplateContainer name="WifiSettings">
+            <WifiSettings
+              available_ssids={["ssid1", "ssid2", "ssid3"]}
+              onSave={(data) => console.log(data)}
+            />
+          </TemplateContainer>
+
           <TemplateContainer name='TouchTabs'>
             <TouchTabs />
           </TemplateContainer>
-          <TemplateContainer name='HorizontalTouchScroll'>
-            <HorizontalTouchScroll
-              children_list={[
-                <div className='flex align-center justify-center bg-blue-500 h-full w-full text-white'>Component 1</div>,
-                <div className='flex align-center justify-center bg-blue-500 h-full w-full text-white'>Component 2</div>,
-                <div className='flex align-center justify-center bg-blue-500 h-full w-full text-white'>Component 3</div>,
-                <div className='flex align-center justify-center bg-blue-500 h-full w-full text-white'>Component 4</div>,
-                <div className='flex align-center justify-center bg-blue-500 h-full w-full text-white'>Component 5</div>
-              ]}
-              onScrollChange={(index) => console.log(index)}
-            />
-          </TemplateContainer>
-          <TemplateContainer name='HoverInfo'>
-            <HoverInfo
-              title={"Info Title"}
-              info={"Info Info"}
-            />
+
+
+
+          <TemplateContainer name='SettingsGeneratorExample'>
+            <SettingsGeneratorExample />
           </TemplateContainer>
         </div>
-
-      </Header>
-    </div>
+      </MyScrollArea>
+    </Header>
   );
 }
 

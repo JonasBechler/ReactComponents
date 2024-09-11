@@ -2,8 +2,8 @@ import React from 'react';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 
 const MyScrollArea = ({children}) => (
-  <ScrollArea.Root className="w-full h-full rounded bg-blackA5">
-    <ScrollArea.Viewport className="w-full h-full">
+  <ScrollArea.Root className="flex flex-1 w-full h-full overflow-hidden flex-grow">
+    <ScrollArea.Viewport className="flex flex-1 w-full h-full overflow-hidden flex-grow">
       
         {children}
       
