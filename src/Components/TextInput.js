@@ -41,9 +41,15 @@ const TextInput = ({ id, type, placeholder, value, setValue }) => {
 
 
     return (
-            <div className="flex align-center">
+            <div className="flex flex-1 align-center justify-center">
                 <input
-                    className="Input"
+                    className="w-full 
+                    border 
+                    border-gray-300 
+                    rounded-md 
+                    pl-[25px] 
+                    text-lg 
+                    h-8"
                     type="text"
                     id={"input_" + id}
                     value={value}

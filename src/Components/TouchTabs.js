@@ -3,6 +3,9 @@ import { HomeIcon, GearIcon, Cross1Icon } from '@radix-ui/react-icons'
 import * as Tabs from '@radix-ui/react-tabs';
 
 
+import MyScrollArea from './MyScrollArea';
+
+
 /* 
 
 .TabsRoot {
@@ -60,39 +63,60 @@ import * as Tabs from '@radix-ui/react-tabs';
 */
 
 
-const TouchTabs = ({values, icons, contents, defaultValue}) => {
+const TouchTabs = ({ values, icons, contents, defaultValue }) => {
   if (values === undefined) {
-    values = ['home', 'settings'];
+    console.log('TouchTabs: values is undefined');
+    return;
   }
   if (icons === undefined) {
-    icons = [<HomeIcon className='w-10 h-10' />, <GearIcon className='w-10 h-10' />];
+    icons = [];
   }
   if (contents === undefined) {
-    contents = ['ABC'];
+    contents = [];
   }
 
-  
+
   return (
     <Tabs.Root className="flex h-full w-full"
       defaultValue="settings">
-      <Tabs.List className="flex flex-col bg-white border-r-2 border-black w-20 p-2">
-        {
-          values.map((value, index) => {
-            return (
-              <Tabs.Trigger className="flex flex-col justify-center items-center mb-2"
-                key={index}
-                value={value}>
-                {icons[index] ? icons[index] : <Cross1Icon className='w-10 h-10' />}
-              </Tabs.Trigger>
-            );
-          })
-        }
+
+      <Tabs.List className="flex flex-col 
+      border-r-2 border-black 
+      p-2">
+          {
+            values.map((value, index) => {
+              return (
+                <Tabs.Trigger className="
+              flex
+              justify-center items-center
+              mb-2
+              border-blue-500
+              rounded-lg
+              p-1
+              shadow-black 
+              shadow-[0_1px_3px] 
+              "
+                  key={index}
+                  value={value}
+                >
+
+                  {
+                    icons[index] ?
+                      (React.cloneElement(icons[index], { className: "w-10 h-10" }))
+                      :
+                      (<Cross1Icon className='w-10 h-10' />)
+                  }
+
+                </Tabs.Trigger>
+              );
+            })
+          }
 
       </Tabs.List>
       {
         values.map((value, index) => {
           return (
-            <Tabs.Content className="flex flex-col justify-center items-center"
+            <Tabs.Content className="flex justify-center items-center"
               key={index}
               value={value}>
               {contents[index] ? contents[index] : 'Not Found'}

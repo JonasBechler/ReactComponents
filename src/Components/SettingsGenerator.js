@@ -93,6 +93,7 @@ const SettingsGenerator = ({ config, onSave }) => {
     return (
         <MyDialog
             title={config.name}
+            icon={<GearIcon />}
         >
 
             {

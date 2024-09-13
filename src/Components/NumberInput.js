@@ -17,30 +17,67 @@ const NumberInput = ({ increment, max, min, unit, value, setValue }) => {
 
 
     return (
-        <div className='flex items-center justify-around w-full'>
-            <div>
+        <div className='
+        flex
+        w-full h-full 
+        '>
+            <div className='
+            flex 
+            w-1/2 h-full
+            items-center justify-center
+            '>
 
-                <button
-                    onClick={() => incValue(-increment)}>
-                    <MinusIcon />
-                </button>
-            </div>
-            <div className='flex items-center justify-center'>
-                <div>
+                <div className='
+                flex flex-grow
+                items-center justify-center
+                '>
+
+                    <button
+                        onClick={() => incValue(-increment)}>
+                        <MinusIcon />
+                    </button>
+                </div>
+                <div className='pr-1'>
                     {value}
                 </div>
-                <div>
+            </div>
+            <div className='
+            flex 
+            w-1/2 h-full
+            items-center justify-center
+            '>
+
+                <div className='pl-1'>
                     {unit}
                 </div>
-            </div>
-            <div>
+                <div className='
+                flex flex-grow
+                items-center justify-center
+                '>
 
-                <button className={""} onClick={() => incValue(increment)}>
-                    <PlusIcon />
-                </button>
+                    <button className={""} onClick={() => incValue(increment)}>
+                        <PlusIcon />
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+    )
+    /*
+            <div className='flex items-center justify-around w-full'>
+                <div className='flex items-center justify-center gap-2'>
+                    <div>
+                        {unit}
+                    </div>
+                </div>
+                <div>
+
+                </div>
             </div>
         </div>
     )
+        */
 }
 
 export default NumberInput;

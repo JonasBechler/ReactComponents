@@ -13,10 +13,29 @@ const HorizontalTouchScroll = ({ children_list, onScrollChange }) => {
     }
 
     return (
-        <div className="flex w-full h-full overflow-y-hidden overflow-x-auto snap-type-mandatory snap-x snap-start"
-        onScroll={onScroll}>
+        <div
+            className='
+            flex flex-grow 
+            overflow-x-auto 
+            overflow-y-hidden
+            snap-type-mandatory snap-x snap-start 
+            h-full
+            '
+            onScroll={onScroll}>
             {children_list.map((child, index) => (
-                <section key={index} className="items-center min-w-full h-full bg-yellow-200 p-2 flex-shrink-0 snap-center">
+
+
+                <section
+                    key={index}
+                    className="
+                    flex
+                    flex-grow
+                    items-center 
+                    min-w-full
+                    bg-yellow-200 
+                    p-2 
+                    pb-4
+                    snap-center">
                     {child}
                 </section>
             ))}
