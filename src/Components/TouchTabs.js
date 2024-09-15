@@ -63,7 +63,7 @@ import MyScrollArea from './MyScrollArea';
 */
 
 
-const TouchTabs = ({ values, icons, contents, defaultValue }) => {
+const TouchTabs = ({ values, icons, contents }) => {
   if (values === undefined) {
     console.log('TouchTabs: values is undefined');
     return;
@@ -77,16 +77,16 @@ const TouchTabs = ({ values, icons, contents, defaultValue }) => {
 
 
   return (
-    <Tabs.Root className="flex h-full w-full"
-      defaultValue="settings">
+    <Tabs.Root className='flex h-full w-full bg-yellow-200'
+      defaultValue={values[0]}>
 
       <Tabs.List className="flex flex-col 
       border-r-2 border-black 
       p-2">
-          {
-            values.map((value, index) => {
-              return (
-                <Tabs.Trigger className="
+        {
+          values.map((value, index) => {
+            return (
+              <Tabs.Trigger className="
               flex
               justify-center items-center
               mb-2
@@ -96,30 +96,30 @@ const TouchTabs = ({ values, icons, contents, defaultValue }) => {
               shadow-black 
               shadow-[0_1px_3px] 
               "
-                  key={index}
-                  value={value}
-                >
+                key={index}
+                value={value}
+              >
 
-                  {
-                    icons[index] ?
-                      (React.cloneElement(icons[index], { className: "w-10 h-10" }))
-                      :
-                      (<Cross1Icon className='w-10 h-10' />)
-                  }
+                {
+                  icons[index] ?
+                    (React.cloneElement(icons[index], { className: "w-10 h-10" }))
+                    :
+                    (<Cross1Icon className='w-10 h-10' />)
+                }
 
-                </Tabs.Trigger>
-              );
-            })
-          }
+              </Tabs.Trigger>
+            );
+          })
+        }
 
       </Tabs.List>
       {
         values.map((value, index) => {
           return (
-            <Tabs.Content className="flex justify-center items-center"
+            <Tabs.Content className='grow justify-center items-center bg-yellow-500'
               key={index}
               value={value}>
-              {contents[index] ? contents[index] : 'Not Found'}
+                {contents[index] ? contents[index] : 'Not Found'}
             </Tabs.Content>
           );
         })

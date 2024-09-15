@@ -1,7 +1,9 @@
 import React from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import { Cross2Icon, CrossCircledIcon } from '@radix-ui/react-icons';
+import { Cross1Icon, CrossCircledIcon } from '@radix-ui/react-icons';
 import MyScrollArea from './MyScrollArea';
+
+import {clickable_classnames} from './BaseStyles'
 
 const MyDialog = ({ children, title, icon, scrollable, onSave }) => {
     if (onSave === undefined) {
@@ -11,25 +13,17 @@ const MyDialog = ({ children, title, icon, scrollable, onSave }) => {
     return (
         <Dialog.Root>
             <Dialog.Trigger asChild>
-                <button className="
+                <button className={`
                 inline-flex 
                 items-center justify-center 
                 h-[35px] 
                 rounded-[4px] 
-                bg-white 
-                px-[15px] 
-                font-medium 
                 leading-none 
-                shadow-black 
-                shadow-[0_1px_3px] 
-                hover:bg-mauve3 
-                focus:shadow-[0_0_0_2px] 
-                focus:shadow-black 
-                focus:outline-none
                 gap-2
-                w-1/2
+                w-[200px]
                 text-lg
-                ">
+                `
+                + clickable_classnames}>
                     {(icon !== undefined) ? React.cloneElement(icon, { className: "w-6 h-6" }) : <div />}
                     {title}
 
@@ -75,18 +69,16 @@ const MyDialog = ({ children, title, icon, scrollable, onSave }) => {
                             </div>
                             <Dialog.Close asChild>
                                 <button
-                                    className="
+                                    className={`
+                                    rounded-full 
                                     inline-flex 
+                                    p-1
                                     items-center justify-center 
-                                    text-violet11 
-                                    hover:bg-violet4 
-                                    appearance-none 
-                                    focus:shadow-violet7 
-                                    focus:shadow-[0_0_0_0px] 
-                                    focus:outline-none"
+                                    ` + clickable_classnames}
+
                                     aria-label="Close"
                                 >
-                                    <CrossCircledIcon className='w-8 h-8' />
+                                    <Cross1Icon className='w-6 h-6' />
                                 </button>
                             </Dialog.Close>
                         </div>
@@ -118,21 +110,16 @@ const MyDialog = ({ children, title, icon, scrollable, onSave }) => {
 
                             <Dialog.Close asChild>
                                 <button
-                                    className='
+                                    className={`
                                     flex
                                     items-center justify-center 
                                     h-[35px] 
-                                    bg-green4 
+                                    bg-green-400 
                                     text-green11 
-                                    hover:bg-green5 
-                                    focus:shadow-green7 
                                     rounded-[4px] 
                                     px-[15px] 
-                                    font-medium 
                                     leading-none 
-                                    focus:shadow-[0_0_0_2px] 
-                                    focus:outline-none
-                                    '
+                                    `+ clickable_classnames }
                                     onClick={onSave}
                                 >
                                     Save changes

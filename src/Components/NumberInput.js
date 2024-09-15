@@ -1,4 +1,5 @@
 import { PlusIcon, MinusIcon } from '@radix-ui/react-icons'
+import { clickable_classnames } from './BaseStyles.js'
 
 const NumberInput = ({ increment, max, min, unit, value, setValue }) => {
 
@@ -23,39 +24,77 @@ const NumberInput = ({ increment, max, min, unit, value, setValue }) => {
         '>
             <div className='
             flex 
-            w-1/2 h-full
+            w-1/3 h-full
             items-center justify-center
             '>
 
                 <div className='
                 flex flex-grow
-                items-center justify-center
+                items-center justify-start
+                pl-1.5
                 '>
 
                     <button
+                        className={`
+                        inline-flex 
+                        rounded-full 
+                        h-[25px] w-[25px]
+                        items-center justify-center 
+                        ` + clickable_classnames}
                         onClick={() => incValue(-increment)}>
                         <MinusIcon />
                     </button>
                 </div>
-                <div className='pr-1'>
-                    {value}
-                </div>
             </div>
+            {unit ? (
+                <div className='
+                    flex 
+                    w-1/3 h-full
+                    items-center justify-center
+                    min-w-[100px]
+                    text-lg
+                    '>
+                    <div className='flex pr-1 w-1/2 justify-end'>
+                        {value}
+                    </div>
+                    <div className='flex pr-1 w-1/2 justify-start'>
+                        {unit}
+                    </div>
+                </div>
+            ) : (
+                <div className='
+                    flex 
+                    w-1/3 h-full
+                    items-center justify-center
+                    min-w-[100px]
+                    text-lg
+                    '>
+                    {value}
+
+                </div>
+            )
+            }
+
             <div className='
             flex 
-            w-1/2 h-full
+            w-1/3 h-full
             items-center justify-center
             '>
 
-                <div className='pl-1'>
-                    {unit}
-                </div>
                 <div className='
                 flex flex-grow
-                items-center justify-center
+                items-center justify-end
+                pr-1.5
                 '>
 
-                    <button className={""} onClick={() => incValue(increment)}>
+                    <button
+                        className={`
+                        inline-flex 
+                        rounded-full 
+                        h-[25px] w-[25px]
+                        items-center justify-center 
+                        ` + clickable_classnames}
+                        onClick={() => incValue(increment)}>
                         <PlusIcon />
                     </button>
 

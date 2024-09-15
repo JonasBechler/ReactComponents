@@ -37,31 +37,46 @@ const ap_config = {
             type: "password",
             default: "12345678",
             description: "The password of the wifi access point"
+        },
+        {
+            id: "number",
+            name: "Number",
+            type: "number",
+            default: "50",
+            description: "A number",
+            unit: "%",
+            min: 0,
+            max: 100,
+            increment: 5,
         }
     ]
 };
+
+const ap_settings = {
+    active: false,
+    ssid: "",
+    password: "",
+    number: 0
+}
 
 
 
 
 const SettingsGeneratorExample = ({ }) => {
 
-
+    const settings_gen_ref = React.createRef()
 
     return (
         <div>
             <SettingsGenerator
                 config={ap_config}
+                initial_settings={ap_settings}
                 onSave={(settings) => {
                     console.log("Settings Saved: ", settings);
                 }}
+                ref={settings_gen_ref}
             />
-            <SettingsGenerator
-                config={ap_config}
-                onSave={(settings) => {
-                    console.log("Settings Saved: ", settings);
-                }}
-            />
+           
         </div>
     );
 }

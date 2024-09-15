@@ -1,5 +1,5 @@
 
-
+import { clickable_classnames } from "./BaseStyles";
 const TextInput = ({ id, type, placeholder, value, setValue }) => {
     
     const RegEx = {
@@ -43,13 +43,13 @@ const TextInput = ({ id, type, placeholder, value, setValue }) => {
     return (
             <div className="flex flex-1 align-center justify-center">
                 <input
-                    className="w-full 
-                    border 
-                    border-gray-300 
+                    className={`
+                    w-full 
                     rounded-md 
                     pl-[25px] 
                     text-lg 
-                    h-8"
+                    h-8
+                    `+ clickable_classnames}
                     type="text"
                     id={"input_" + id}
                     value={value}

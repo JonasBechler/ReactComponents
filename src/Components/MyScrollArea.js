@@ -55,7 +55,7 @@ const MyScrollArea = ({ children }) => {
 			<ScrollArea.Scrollbar className={scrollbar_classnames} orientation="horizontal" >
 				<ScrollArea.Thumb className={scrollthumb_classnames} />
 			</ScrollArea.Scrollbar>
-			<ScrollArea.Corner className="bg-blackA5" />
+			<ScrollArea.Corner className="bg-black-500" />
 		</ScrollArea.Root>
 	);
 }

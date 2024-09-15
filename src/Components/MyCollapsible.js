@@ -4,13 +4,14 @@ import { RowSpacingIcon, Cross2Icon, ChevronDownIcon, ChevronUpIcon } from '@rad
 
 import HoverInfo from './HoverInfo';
 
+import {clickable_classnames} from './BaseStyles.js'
+
 const MyCollapsible = ({ children, name, info }) => {
 	const [open, setOpen] = React.useState(false);
 	return (
 		<Collapsible.Root
 			className='
 			w-full 
-			bg-yellow-200
 			'
 			open={open}
 			onOpenChange={setOpen}>
@@ -54,23 +55,17 @@ const MyCollapsible = ({ children, name, info }) => {
 					flex 
 					w-1/2  
 					items-center justify-end
-					px-2
+					pr-3.5
 					'>
 
 					<Collapsible.Trigger asChild>
 						<button
-							className='
+							className={`
+							inline-flex 
 							rounded-full 
 							h-[25px] w-[25px]
-							inline-flex 
 							items-center justify-center 
-							shadow-[0_2px_10px] 
-							shadow-blackA4 
-							outline-none 
-							hover:bg-violet3 
-							focus:shadow-[0_0_0_2px] 
-							focus:shadow-black
-							'>
+							` + clickable_classnames}>
 							{open ? <ChevronUpIcon /> : <ChevronDownIcon />}
 						</button>
 					</Collapsible.Trigger>

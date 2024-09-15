@@ -4,84 +4,81 @@ import { GearIcon, Cross2Icon, ReloadIcon, LockOpen2Icon, LockClosedIcon } from 
 
 import TextInput from './TextInput.js';
 import BoolInput from './BoolInput.js';
+import NumberInput from './NumberInput.js';
 import MyLabel from './MyLabel.js';
 import MyDialog from './MyDialog.js';
 import MyScrollArea from './MyScrollArea.js';
 
 
 
-const blank_settings_config = {
-    id: "wifi_ap",
-    name: "Wifi AP Settings",
-    settings_count: 3,
-    settings: [
-        {
-            id: "active",
-            name: "Active",
-            type: "bool",
-            default: "false",
-            description: "Enable or disable the wifi access point"
-        },
-        {
-            id: "ssid",
-            name: "SSID",
-            type: "text",
-            default: "Oil Lamp",
-            description: "The SSID of the wifi access point"
-        },
-        {
-            id: "password",
-            name: "Password",
-            type: "password",
-            default: "12345678",
-            description: "The password of the wifi access point"
-        }
-    ]
 
 
-};
+const SettingsGenerator = React.forwardRef(({ config, initial_settings, onSave }, ref) => {
 
 
+    const [settings, setSettings] = React.useState(initial_settings);
+    const setSetting = (setting, value) => {
+        setSettings({ ...settings, [setting]: value });
+    }
 
-const SettingsGenerator = ({ config, onSave }) => {
-    const [settings, setSettings] = React.useState({});
+    if (config === undefined) {
+        return (<div> no config </div>)
+    }
 
-    if (config === undefined || config === null) {
-        config = blank_settings_config;
+    if (onSave === undefined) {
+        onSave = () => console.log(settings)
+    }
+
+    const onSaveFunction = () => {
+        onSave(settings);
     }
 
     const create_Input = (setting) => {
         if (setting.type === "bool") {
-            return (
-                <div key={'input_' + config.id + "_" + setting.id}>
-                    <BoolInput
-                        id={config.id + "_" + setting.id}
-                        value={settings[setting.id]}
-                        setValue={(value) => {
-                            let new_settings = settings;
-                            new_settings[setting.id] = value;
-                            setSettings(new_settings);
-                        }}
-                    />
 
-                </div>
+            return (
+                <BoolInput
+                    key={'input_' + config.id + "_" + setting.id}
+                    id={config.id + "_" + setting.id}
+                    value={settings[setting.id]}
+                    setValue={(value) => setSetting(setting.id, value)}
+                />
+
+            );
+        }
+        if (setting.type === "number") {
+            if (setting.increment === undefined) {
+                setting.increment = 1;
+            }
+            if (setting.max === undefined) {
+                setting.max = 100;
+            }
+            if (setting.min === undefined) {
+                setting.min = 0;
+            }
+    
+            return (
+                <NumberInput
+                    key={'input_' + config.id + "_" + setting.id}
+                    increment={setting.increment}
+                    max={setting.max}
+                    min={setting.min}
+                    unit={setting.unit}
+                    value={settings[setting.id]}
+                    setValue={(value) => setSetting(setting.id, value)}
+                />
             );
         }
         else {
             return (
-                <div key={'input_' + config.id + "_" + setting.id}>
-                    <TextInput
-                        id={config.id + "_" + setting.id}
-                        type={setting.type}
-                        placeholder={setting.default}
-                        value={settings[setting.id]}
-                        setValue={(value) => {
-                            let new_settings = settings;
-                            new_settings[setting.id] = value;
-                            setSettings(new_settings);
-                        }}
-                    />
-                </div>
+                <TextInput
+                    key={'input_' + config.id + "_" + setting.id}
+                    id={config.id + "_" + setting.id}
+                    type={setting.type}
+                    placeholder={setting.default}
+                    value={settings[setting.id]}
+                    setValue={(value) => setSetting(setting.id, value)}
+                />
             );
 
         }
@@ -94,6 +91,8 @@ const SettingsGenerator = ({ config, onSave }) => {
         <MyDialog
             title={config.name}
             icon={<GearIcon />}
+            scrollable={true}
+            onSave={() => onSaveFunction()}
         >
 
             {
@@ -102,6 +101,7 @@ const SettingsGenerator = ({ config, onSave }) => {
                         <div key={"subsetting_" + config.id + "_" + setting.id}>
                             <MyLabel
                                 name={setting.name}
+                                info={setting.description}
                                 id={config.id + "_" + setting.id}
                             >
                                 {create_Input(setting)}
@@ -113,6 +113,6 @@ const SettingsGenerator = ({ config, onSave }) => {
         </MyDialog>
 
     );
-}
+});
 
 export default SettingsGenerator;

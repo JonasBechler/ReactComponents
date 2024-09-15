@@ -11,7 +11,7 @@ import MyCollapsible from './MyCollapsible.js';
 import BoolInput from './BoolInput.js';
 
 
-const WifiSettings = ({ available_ssids, onSaveCallback }) => {
+const WifiSettings = ({ available_ssids, onSave }) => {
     if (available_ssids === undefined) {
         available_ssids = ["option1", "option2", "option3"];
     }
@@ -30,7 +30,7 @@ const WifiSettings = ({ available_ssids, onSaveCallback }) => {
     const [ap_ssid, setApSsid] = useState("");
     const [ap_password, setApPassword] = useState("");
 
-    const onSave = () => {
+    const onSaveFunction = () => {
         const data = {
             client_active: client_active,
             client_ssid: client_ssid,
@@ -41,9 +41,11 @@ const WifiSettings = ({ available_ssids, onSaveCallback }) => {
             client_subnet: client_subnet,
             client_dns1: client_dns1,
             client_dns2: client_dns2,
+            ap_active: ap_active,
             ap_ssid: ap_ssid,
             ap_password: ap_password
         }
+        onSave(data);
         console.log(data);
         
     }
@@ -55,7 +57,7 @@ const WifiSettings = ({ available_ssids, onSaveCallback }) => {
             title={"Wifi Settings"}
             icon={<GearIcon />}
             scrollable={true}
-            onSave={onSave}
+            onSave={onSaveFunction}
         >
             <MyTabs
                 values={['Client', 'Access Point']}

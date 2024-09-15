@@ -1,35 +1,36 @@
 import * as Switch from '@radix-ui/react-switch';
 
+import {clickable_classnames} from './BaseStyles.js'
+
 const BoolInput = ({ id, value, setValue }) => {
     return (
         <div className='flex items-center'>
             <Switch.Root
-                className="w-[42px] 
-                h-[25px] 
+                className={`w-[42px] 
+                h-[26px] 
                 bg-blackA6 
                 rounded-full 
                 relative 
-                shadow-[0_1px_1px] 
-                shadow-black 
-                focus:shadow-[0_0_0_2px] 
                 data-[state=checked]:bg-black 
-                outline-none 
-                cursor-default"
+                cursor-default
+                ` + clickable_classnames}
                 id={id}
-                value={value}
+                checked={value}
                 onCheckedChange={setValue}
             >
-                <Switch.Thumb className="block 
+                <Switch.Thumb 
+                className={`block 
                 w-[21px] h-[21px] 
-                bg-white 
+                bg-black 
                 rounded-full 
-                shadow-[0_2px_2px] 
-                shadow-blackA4 
+                
                 transition-transform 
                 duration-100 
                 translate-x-0.5
                 will-change-transform 
-                data-[state=checked]:translate-x-[19px]" />
+                data-[state=checked]:translate-x-[18px]
+                data-[state=checked]:bg-white
+                `} />
             </Switch.Root>
 
         </div>

@@ -24,6 +24,8 @@ import MyCollapsible from './Components/MyCollapsible.js';
 
 import SettingsGeneratorExample from './Components/SettingsGeneratorExample.js';
 
+import MyChartExample from './Components/MyChartExample.js';
+
 import { HomeIcon, GearIcon, PlusIcon } from '@radix-ui/react-icons';
 
 function App() {
@@ -113,7 +115,7 @@ function App() {
             <MyDialog
               title={"MyDialog"}
               >
-              <div className='bg-blue-500 text-white'>Dialog Content</div>
+              <div className='flex w-full h-full bg-blue-500 text-white'>Dialog Content</div>
               </MyDialog>
             
           </TemplateContainer>
@@ -221,23 +223,26 @@ function App() {
               />
             </MyLabel>
           </TemplateContainer>
-          x
+          
 
 
 
-          <TemplateContainer name="WifiSettings">
+          <TemplateContainer name="WifiSettings & SettingsGeneratorExample">
             <WifiSettings
               available_ssids={["ssid1", "ssid2", "ssid3"]}
               onSave={(data) => console.log(data)}
             />
+            <SettingsGeneratorExample />
           </TemplateContainer>
 
 
 
 
 
-          <TemplateContainer name='SettingsGeneratorExample'>
-            <SettingsGeneratorExample />
+          <TemplateContainer name='Chart'>
+            <MyChartExample
+
+              />
           </TemplateContainer>
         </div>
       </MyScrollArea>
