@@ -31,10 +31,16 @@ const WifiSettings = ({ available_ssids, onSave }) => {
     const [ap_password, setApPassword] = useState("");
 
     const onSaveFunction = () => {
+        let ssid = "";
+        if (client_ssid === "other"){
+            ssid = client_ssidOther
+        }
+        else {
+            ssid = client_ssid;
+        }
         const data = {
             client_active: client_active,
-            client_ssid: client_ssid,
-            client_ssidOther: client_ssidOther,
+            client_ssid: ssid,
             client_password: client_password,
             client_ip: client_ip,
             client_gateway: client_gateway,

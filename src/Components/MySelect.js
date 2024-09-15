@@ -39,7 +39,7 @@ const MySelect = ({ option_values, option_displays, placeholder, value, setValue
                     <ChevronDownIcon />
                 </Select.Icon>
             </Select.Trigger>
-            <Select.Portal className="-mt-1">
+            <Select.Portal className="">
                 <Select.Content className={`
                 flex                 
                 overflow-hidden 
@@ -61,39 +61,16 @@ const MySelect = ({ option_values, option_displays, placeholder, value, setValue
                     <Select.Viewport>
                         {option_values.map((option, option_index) => {
                             return (
-                                <Select.Item
-                                    key={"select_" + option_index}
-                                    className={`
-                                    'text-lg 
-                                    leading-none 
-                                    text-violet11 
-                                    rounded-md 
-                                    flex 
-                                    items-center 
-                                    h-[30px] 
-                                    pr-[35px] pl-[25px] 
-                                    relative 
-                                    select-none 
-                                    data-[disabled]:text-mauve8 
-                                    data-[disabled]:pointer-events-none 
-                                    data-[highlighted]:outline-none 
-                                    data-[highlighted]:bg-violet9 
-                                    data-[highlighted]:text-violet1
-                                    `}
+                                <div
+                                    key={option}
                                 >
-                                    <Select.ItemText>
-                                        {option_displays[option_index]}
-                                    </Select.ItemText>
-                                    <Select.ItemIndicator
-                                        className="
-                                        absolute 
-                                        left-0 
-                                        w-[25px] 
-                                        inline-flex 
-                                        items-center justify-center">
-                                        <CheckIcon className='w-5 h-5' />
-                                    </Select.ItemIndicator>
-                                </Select.Item>
+
+                                <SelectItem 
+                                    value={option}
+                                    >
+                                    {option_displays[option_index]}
+                                </SelectItem>
+                                        </div>
 
                             );
                         }
@@ -115,5 +92,41 @@ const MySelect = ({ option_values, option_displays, placeholder, value, setValue
 
 
 
+const SelectItem = React.forwardRef(({ children, ...props }, forwardedRef) => {
+    return (
+        <Select.Item
+            className={`
+                'text-lg 
+                leading-none 
+                text-violet11 
+                rounded-md 
+                flex 
+                items-center 
+                h-8
+                pr-[35px] pl-[25px] 
+                relative 
+                select-none 
+                data-[disabled]:text-mauve8 
+                data-[disabled]:pointer-events-none 
+                data-[highlighted]:outline-none 
+                data-[highlighted]:bg-violet9 
+                data-[highlighted]:text-violet1
+                `}
+            {...props}
+            ref={forwardedRef}
+        >
+            <Select.ItemText>{children}</Select.ItemText>
+            <Select.ItemIndicator
+                className="
+                absolute 
+                left-0 
+                w-[25px] 
+                inline-flex 
+                items-center justify-center">
+                <CheckIcon className='w-5 h-5' />
+            </Select.ItemIndicator>
+        </Select.Item>
+    );
+});
 
 export default MySelect;
