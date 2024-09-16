@@ -3,12 +3,15 @@ import * as Select from '@radix-ui/react-select';
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons';
 
 import { clickable_classnames } from './BaseStyles';
-const MySelect = ({ option_values, option_displays, placeholder, value, setValue }) => {
+const MySelect = ({ option_values, option_texts, option_extras, placeholder, value, setValue }) => {
     if (option_values === undefined) {
         option_values = [];
     }
-    if (option_displays === undefined) {
-        option_displays = [];
+    if (option_texts === undefined) {
+        option_texts = [];
+    }
+    if (option_extras === undefined) {
+        option_extras = [];
     }
 
     return (
@@ -62,15 +65,15 @@ const MySelect = ({ option_values, option_displays, placeholder, value, setValue
                         {option_values.map((option, option_index) => {
                             return (
                                 <div
-                                    key={option}
+                                    key={option + "_" + option_index}
                                 >
 
-                                <SelectItem 
-                                    value={option}
-                                    >
-                                    {option_displays[option_index]}
-                                </SelectItem>
-                                        </div>
+                                    <SelectItem
+                                        value={option_values[option_index]}
+                                        text={option_texts[option_index]}
+                                        extra={option_extras[option_index]}
+                                    />
+                                </div>
 
                             );
                         }
@@ -92,7 +95,7 @@ const MySelect = ({ option_values, option_displays, placeholder, value, setValue
 
 
 
-const SelectItem = React.forwardRef(({ children, ...props }, forwardedRef) => {
+const SelectItem = React.forwardRef(({ text, extra, ...props }, forwardedRef) => {
     return (
         <Select.Item
             className={`
@@ -100,8 +103,10 @@ const SelectItem = React.forwardRef(({ children, ...props }, forwardedRef) => {
                 leading-none 
                 text-violet11 
                 rounded-md 
+                w-full
                 flex 
                 items-center 
+                justify-between
                 h-8
                 pr-[35px] pl-[25px] 
                 relative 
@@ -115,7 +120,14 @@ const SelectItem = React.forwardRef(({ children, ...props }, forwardedRef) => {
             {...props}
             ref={forwardedRef}
         >
-            <Select.ItemText>{children}</Select.ItemText>
+            <Select.ItemText>
+                {text}
+            </Select.ItemText>
+            <div className="flex">
+                {extra}
+            </div>
+            
+
             <Select.ItemIndicator
                 className="
                 absolute 

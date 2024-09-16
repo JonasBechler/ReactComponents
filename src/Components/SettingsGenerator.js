@@ -23,7 +23,7 @@ const SettingsGenerator = React.forwardRef(({ config, initial_settings, onSave }
 
     if (config === undefined) {
         return (<div> no config </div>)
-    }
+    }    
 
     if (onSave === undefined) {
         onSave = () => console.log(settings)
@@ -33,51 +33,51 @@ const SettingsGenerator = React.forwardRef(({ config, initial_settings, onSave }
         onSave(settings);
     }
 
-    const create_Input = (setting) => {
-        if (setting.type === "bool") {
+    const create_Input = (subsetting) => {
+        if (subsetting.type === "bool") {
 
             return (
                 <BoolInput
-                    key={'input_' + config.id + "_" + setting.id}
-                    id={config.id + "_" + setting.id}
-                    value={settings[setting.id]}
-                    setValue={(value) => setSetting(setting.id, value)}
+                    key={'input_' + config.id + "_" + subsetting.id}
+                    id={config.id + "_" + subsetting.id}
+                    value={settings[subsetting.id]}
+                    setValue={(value) => setSetting(subsetting.id, value)}
                 />
 
             );
         }
-        if (setting.type === "number") {
-            if (setting.increment === undefined) {
-                setting.increment = 1;
+        if (subsetting.type === "number") {
+            if (subsetting.increment === undefined) {
+                subsetting.increment = 1;
             }
-            if (setting.max === undefined) {
-                setting.max = 100;
+            if (subsetting.max === undefined) {
+                subsetting.max = 100;
             }
-            if (setting.min === undefined) {
-                setting.min = 0;
+            if (subsetting.min === undefined) {
+                subsetting.min = 0;
             }
     
             return (
                 <NumberInput
-                    key={'input_' + config.id + "_" + setting.id}
-                    increment={setting.increment}
-                    max={setting.max}
-                    min={setting.min}
-                    unit={setting.unit}
-                    value={settings[setting.id]}
-                    setValue={(value) => setSetting(setting.id, value)}
+                    key={'input_' + config.id + "_" + subsetting.id}
+                    increment={subsetting.increment}
+                    max={subsetting.max}
+                    min={subsetting.min}
+                    unit={subsetting.unit}
+                    value={settings[subsetting.id]}
+                    setValue={(value) => setSetting(subsetting.id, value)}
                 />
             );
         }
-        else {
+        else {            
             return (
                 <TextInput
-                    key={'input_' + config.id + "_" + setting.id}
-                    id={config.id + "_" + setting.id}
-                    type={setting.type}
-                    placeholder={setting.default}
-                    value={settings[setting.id]}
-                    setValue={(value) => setSetting(setting.id, value)}
+                    key={'input_' + config.id + "_" + subsetting.id}
+                    id={config.id + "_" + subsetting.id}
+                    type={subsetting.type}
+                    placeholder={subsetting.default}
+                    value={settings[subsetting.id]}
+                    setValue={(value) => setSetting(subsetting.id, value)}
                 />
             );
 
@@ -96,15 +96,15 @@ const SettingsGenerator = React.forwardRef(({ config, initial_settings, onSave }
         >
 
             {
-                config.settings.map((setting, index) => {
+                config.subsettings.map((subsetting, index) => {
                     return (
-                        <div key={"subsetting_" + config.id + "_" + setting.id}>
+                        <div key={"subsetting_" + config.id + "_" + subsetting.id}>
                             <MyLabel
-                                name={setting.name}
-                                info={setting.description}
-                                id={config.id + "_" + setting.id}
+                                name={subsetting.name}
+                                info={subsetting.description}
+                                id={config.id + "_" + subsetting.id}
                             >
-                                {create_Input(setting)}
+                                {create_Input(subsetting)}
                             </MyLabel>
                         </div>
                     );

@@ -10,50 +10,75 @@ import MyTabs from './MyTabs.js';
 import MyCollapsible from './MyCollapsible.js';
 import BoolInput from './BoolInput.js';
 
+import { LockClosedIcon, LockOpen1Icon } from '@radix-ui/react-icons';
 
-const WifiSettings = ({ available_ssids, onSave }) => {
+
+const WifiSettings = ({ initial_settings, available_ssids, onSave }) => {
     if (available_ssids === undefined) {
-        available_ssids = ["option1", "option2", "option3"];
+        available_ssids = [];
     }
 
-    const [client_active, setClientActive] = useState(false);
-    const [client_ssid, setClientSsid] = useState(available_ssids[0]);
-    const [client_ssidOther, setClientSsidOther] = useState("");
-    const [client_password, setClientPassword] = useState("");
-    const [client_ip, setClientIp] = useState("");
-    const [client_gateway, setClientGateway] = useState("");
-    const [client_subnet, setClientSubnet] = useState("");
-    const [client_dns1, setClientDns1] = useState("");
-    const [client_dns2, setClientDns2] = useState("");
+    let new_settings = {};
+    if (initial_settings !== undefined) {
+        new_settings.client_active = (initial_settings.client_active === undefined) ? false : initial_settings.client_active;
 
-    const [ap_active, setApActive] = useState("");
-    const [ap_ssid, setApSsid] = useState("");
-    const [ap_password, setApPassword] = useState("");
+        if (initial_settings.client_ssid === undefined || initial_settings.client_ssid === "") {
+            new_settings.client_ssid = undefined;
+            new_settings.client_ssidOther = "";
+        }
+        else {
+            let index = available_ssids.findIndex((ssid_context) => ssid_context.ssid === initial_settings.client_ssid);
+            if (index === -1) {
+                new_settings.client_ssid = "other";
+                new_settings.client_ssidOther = initial_settings.client_ssid;
+            }
+            else {
+                new_settings.client_ssid = index + "_" + initial_settings.client_ssid;
+                new_settings.client_ssidOther = "";
+            }
+        }
+
+
+        new_settings.client_password = (initial_settings.client_password === undefined) ? "" : initial_settings.client_password;
+        new_settings.client_ip = (initial_settings.client_ip === undefined) ? "" : initial_settings.client_ip;
+        new_settings.client_gateway = (initial_settings.client_gateway === undefined) ? "" : initial_settings.client_gateway;
+        new_settings.client_subnet = (initial_settings.client_subnet === undefined) ? "" : initial_settings.client_subnet;
+        new_settings.client_dns1 = (initial_settings.client_dns1 === undefined) ? "" : initial_settings.client_dns1;
+        new_settings.client_dns2 = (initial_settings.client_dns2 === undefined) ? "" : initial_settings.client_dns2;
+
+        new_settings.ap_active = (initial_settings.ap_active === undefined) ? false : initial_settings.ap_active;
+        new_settings.ap_ssid = (initial_settings.ap_ssid === undefined) ? "" : initial_settings.ap_ssid;
+        new_settings.ap_password = (initial_settings.ap_password === undefined) ? "" : initial_settings.ap_password;
+    }
+
+
+    const [settings, setSettings] = useState(new_settings);
+    const setSetting = (setting, value) => {
+        setSettings({ ...settings, [setting]: value });
+    }
 
     const onSaveFunction = () => {
         let ssid = "";
-        if (client_ssid === "other"){
-            ssid = client_ssidOther
+        if (settings.client_ssid === "other") {
+            ssid = settings.client_ssidOther
         }
         else {
-            ssid = client_ssid;
+            ssid = settings.client_ssid.substring(settings.client_ssid.indexOf("_") + 1);
         }
         const data = {
-            client_active: client_active,
+            client_active: settings.client_active,
             client_ssid: ssid,
-            client_password: client_password,
-            client_ip: client_ip,
-            client_gateway: client_gateway,
-            client_subnet: client_subnet,
-            client_dns1: client_dns1,
-            client_dns2: client_dns2,
-            ap_active: ap_active,
-            ap_ssid: ap_ssid,
-            ap_password: ap_password
+            client_password: settings.client_password,
+            client_ip: settings.client_ip,
+            client_gateway: settings.client_gateway,
+            client_subnet: settings.client_subnet,
+            client_dns1: settings.client_dns1,
+            client_dns2: settings.client_dns2,
+            ap_active: settings.ap_active,
+            ap_ssid: settings.ap_ssid,
+            ap_password: settings.ap_password
         }
         onSave(data);
-        console.log(data);
-        
     }
 
 
@@ -76,8 +101,8 @@ const WifiSettings = ({ available_ssids, onSave }) => {
                         >
                             <BoolInput
                                 id="client_active"
-                                value={client_active}
-                                setValue={setClientActive}
+                                value={settings.client_active}
+                                setValue={(value) => setSetting("client_active", value)}
 
                             />
                         </MyLabel>
@@ -87,15 +112,23 @@ const WifiSettings = ({ available_ssids, onSave }) => {
                             id="client_ssid"
                         >
                             <MySelect
-                                option_values={[...available_ssids, "other"]}
-                                option_displays={[...available_ssids, "Other"]}
+                                option_values={[...available_ssids.map((ssid_context, index) => index + "_" + ssid_context.ssid), "other"]}
+                                option_texts={[...available_ssids.map((ssid_context) => ssid_context.ssid), "Other"]}
+                                option_extras={[...available_ssids.map((ssid_context) => {
+                                    return (
+                                        <div className='flex gap-2 items-center'>
+                                            {ssid_context.rssi + " dBm"}
+                                            {ssid_context.encrypted === "locked" ? <LockClosedIcon className='h-4 w-4' /> : <LockOpen1Icon />}
+                                        </div>
+                                    )
+                                }), ""]}
                                 placeholder={"Select"}
-                                value={client_ssid}
-                                setValue={setClientSsid}
+                                value={settings.client_ssid}
+                                setValue={(value) => setSetting("client_ssid", value)}
                             />
                         </MyLabel>
 
-                        <div className={client_ssid === "other" ? "" : "hidden"}>
+                        <div className={settings.client_ssid === "other" ? "" : "hidden"}>
                             <MyLabel
                                 name="SSID"
                                 info="SSID Info"
@@ -105,8 +138,8 @@ const WifiSettings = ({ available_ssids, onSave }) => {
                                     id="client_ssid_other"
                                     type="text"
                                     placeholder={"SSID"}
-                                    value={client_ssidOther}
-                                    setValue={setClientSsidOther}
+                                    value={settings.client_ssidOther}
+                                    setValue={(value) => setSetting("client_ssidOther", value)}
                                 />
                             </MyLabel>
                         </div>
@@ -120,8 +153,8 @@ const WifiSettings = ({ available_ssids, onSave }) => {
                                 id="client_password"
                                 type="password"
                                 placeholder={"Password"}
-                                value={client_password}
-                                setValue={setClientPassword}
+                                value={settings.client_password}
+                                setValue={(value) => setSetting("client_password", value)}
                             />
                         </MyLabel>
                         <MyCollapsible
@@ -137,8 +170,8 @@ const WifiSettings = ({ available_ssids, onSave }) => {
                                     id="client_ip"
                                     type="ip"
                                     placeholder={"IP"}
-                                    value={client_ip}
-                                    setValue={setClientIp}
+                                    value={settings.client_ip}
+                                    setValue={(value) => setSetting("client_ip", value)}
                                 />
                             </MyLabel>
                             <MyLabel
@@ -150,8 +183,8 @@ const WifiSettings = ({ available_ssids, onSave }) => {
                                     id="client_gateway"
                                     type="ip"
                                     placeholder={"Gateway"}
-                                    value={client_gateway}
-                                    setValue={setClientGateway}
+                                    value={settings.client_gateway}
+                                    setValue={(value) => setSetting("client_gateway", value)}
                                 />
                             </MyLabel>
                             <MyLabel
@@ -163,8 +196,8 @@ const WifiSettings = ({ available_ssids, onSave }) => {
                                     id="client_subnet"
                                     type="ip"
                                     placeholder={"Subnet"}
-                                    value={client_subnet}
-                                    setValue={setClientSubnet}
+                                    value={settings.client_subnet}
+                                    setValue={(value) => setSetting("client_subnet", value)}
                                 />
                             </MyLabel>
                             <MyLabel
@@ -176,8 +209,8 @@ const WifiSettings = ({ available_ssids, onSave }) => {
                                     id="client_dns1"
                                     type="ip"
                                     placeholder={"DNS1"}
-                                    value={client_dns1}
-                                    setValue={setClientDns1}
+                                    value={settings.client_dns1}
+                                    setValue={(value) => setSetting("client_dns1", value)}
                                 />
                             </MyLabel>
                             <MyLabel
@@ -189,8 +222,8 @@ const WifiSettings = ({ available_ssids, onSave }) => {
                                     id="client_dns2"
                                     type="ip"
                                     placeholder={"DNS2"}
-                                    value={client_dns2}
-                                    setValue={setClientDns2}
+                                    value={settings.client_dns2}
+                                    setValue={(value) => setSetting("client_dns2", value)}
                                 />
                             </MyLabel>
 
@@ -204,8 +237,8 @@ const WifiSettings = ({ available_ssids, onSave }) => {
                         >
                             <BoolInput
                                 id="ap_active"
-                                value={ap_active}
-                                setValue={setApActive}
+                                value={settings.ap_active}
+                                setValue={(value) => setSetting("ap_active", value)}
 
                             />
                         </MyLabel>
@@ -218,8 +251,8 @@ const WifiSettings = ({ available_ssids, onSave }) => {
                                 id="ap_ssid"
                                 type="text"
                                 placeholder={"SSID"}
-                                value={ap_ssid}
-                                setValue={setApSsid}
+                                value={settings.ap_ssid}
+                                setValue={value => setSetting("ap_ssid", value)}
                             />
                         </MyLabel>
                         <MyLabel
@@ -231,8 +264,8 @@ const WifiSettings = ({ available_ssids, onSave }) => {
                                 id="ap_password"
                                 type="password"
                                 placeholder={"Password"}
-                                value={ap_password}
-                                setValue={setApPassword}
+                                value={settings.ap_password}
+                                setValue={value => setSetting("ap_password", value)}
                             />
                         </MyLabel>
 
