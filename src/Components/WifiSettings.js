@@ -50,6 +50,20 @@ const WifiSettings = ({ initial_settings, available_ssids, onSave }) => {
         new_settings.ap_ssid = (initial_settings.ap_ssid === undefined) ? "" : initial_settings.ap_ssid;
         new_settings.ap_password = (initial_settings.ap_password === undefined) ? "" : initial_settings.ap_password;
     }
+    else {
+        new_settings.client_active = false;
+        new_settings.client_ssid = available_ssids.length > 0 ? "0_" + available_ssids[0].ssid : "";
+        new_settings.client_ssidOther = "";
+        new_settings.client_password = "";
+        new_settings.client_ip = "";
+        new_settings.client_gateway = "";
+        new_settings.client_subnet = "";
+        new_settings.client_dns1 = "";
+        new_settings.client_dns2 = "";
+        new_settings.ap_active = false;
+        new_settings.ap_ssid = "";
+        new_settings.ap_password = "";
+    }
 
 
     const [settings, setSettings] = useState(new_settings);
@@ -59,12 +73,17 @@ const WifiSettings = ({ initial_settings, available_ssids, onSave }) => {
 
     const onSaveFunction = () => {
         let ssid = "";
+        
         if (settings.client_ssid === "other") {
             ssid = settings.client_ssidOther
         }
-        else {
+        else if (settings.client_ssid !== "") {
             ssid = settings.client_ssid.substring(settings.client_ssid.indexOf("_") + 1);
         }
+        else {
+            ssid = "";
+        }
+
         const data = {
             client_active: settings.client_active,
             client_ssid: ssid,

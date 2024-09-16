@@ -15,8 +15,8 @@ import SettingsGenerator from './SettingsGenerator.js';
 const ap_config = {
     id: "wifi_ap",
     name: "Wifi AP Settings",
-    settings_count: 3,
-    settings: [
+    subsettings_count: 3,
+    subsettings: [
         {
             id: "active",
             name: "Active",

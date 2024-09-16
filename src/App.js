@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { CheckIcon } from '@radix-ui/react-icons';
+import { HomeIcon, GearIcon, PlusIcon } from '@radix-ui/react-icons';
+
 
 import Header from './Components/Header.js';
 
@@ -18,7 +21,7 @@ import TouchTabs from './Components/TouchTabs.js';
 import HorizontalTouchScroll from './Components/HorizontalTouchScroll.js';
 import HoverInfo from './Components/HoverInfo.js';
 
-import WifiSettings from './Components/WifiSettings.js';
+import WifiSettingsExample from './Components/WifiSettingsExample.js';
 import MyTabs from './Components/MyTabs.js';
 import MyCollapsible from './Components/MyCollapsible.js';
 
@@ -26,7 +29,8 @@ import SettingsGeneratorExample from './Components/SettingsGeneratorExample.js';
 
 import MyChartExample from './Components/MyChartExample.js';
 
-import { HomeIcon, GearIcon, PlusIcon } from '@radix-ui/react-icons';
+import BatteyState from './Components/BatteryState.js';
+
 
 function App() {
   const [stringInput, setStringInput] = useState("");
@@ -41,7 +45,12 @@ function App() {
     <Header
       left={<div>Header</div>}
       center={<div>All Components</div>}
-      right={<div>Right</div>}
+      right={
+        <BatteyState
+          value={100}
+          unit={"%"}
+        />
+      }
     >
       <MyScrollArea>
         <div className='flex flex-wrap w-full h-full justify-center items-center'>
@@ -148,7 +157,8 @@ function App() {
             >
               <MySelect
                 option_values={["option1", "option2", "option3"]}
-                option_displays={["Option 1", "Option 2", "Option 3"]}
+                option_texts={["Option 1", "Option 2", "Option 3"]}
+                option_extras={[<CheckIcon />, <CheckIcon />, undefined]}
                 placeholder={"Select"}
                 value={selectInput}
                 setValue={setSelectInput}
@@ -228,16 +238,9 @@ function App() {
 
 
           <TemplateContainer name="WifiSettings & SettingsGeneratorExample">
-            <WifiSettings
-              available_ssids={["ssid1", "ssid2", "ssid3"]}
-              onSave={(data) => console.log(data)}
-            />
+            <WifiSettingsExample/>
             <SettingsGeneratorExample />
           </TemplateContainer>
-
-
-
-
 
           <TemplateContainer name='Chart'>
             <MyChartExample
