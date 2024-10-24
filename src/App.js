@@ -31,6 +31,8 @@ import MyChartExample from './Components/MyChartExample.js';
 
 import BatteyState from './Components/BatteryState.js';
 
+import SerialMonitorExample from './Components/SerialMonitorExample.js';
+
 
 function App() {
   const [stringInput, setStringInput] = useState("");
@@ -246,6 +248,9 @@ function App() {
             <MyChartExample
 
               />
+          </TemplateContainer>
+          <TemplateContainer name='Chart'>
+            <SerialMonitorExample/>
           </TemplateContainer>
         </div>
       </MyScrollArea>
