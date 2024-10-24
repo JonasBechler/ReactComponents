@@ -6,24 +6,7 @@ const SerialMonitor = () => {
   const [baudRate, setBaudRate] = useState(9600);    // State for selected baud rate
   const serialOutputRef = useRef(null);              // Ref to serial output div for auto-scrolling
 
-  // Function to connect to WebSocket
-  const connectWebSocket = () => {
-    const socket = new WebSocket(`ws://${window.location.hostname}:81/`);
-
-    // WebSocket event listener for incoming messages
-    socket.onmessage = (event) => {
-      setSerialData((prevData) => prevData + event.data);  // Append incoming data
-    };
-
-    // Handle WebSocket close event and auto-reconnect
-    socket.onclose = () => {
-      console.log('WebSocket connection closed. Reconnecting in 3 seconds...');
-      setTimeout(() => connectWebSocket(), 3000);  // Reconnect after 3 seconds
-    };
-
-    // Save the WebSocket connection to state
-    setWs(socket);
-  };
+  
 
   // Handle baud rate change
   const handleBaudRateChange = (event) => {
@@ -48,6 +31,8 @@ const SerialMonitor = () => {
   // Establish WebSocket connection when component mounts
   useEffect(() => {
     connectWebSocket();
+    console.log('WebSocket connection established');
+    
     return () => {
       if (ws) {
         ws.close();  // Clean up WebSocket connection when component unmounts
@@ -57,7 +42,6 @@ const SerialMonitor = () => {
 
   return (
     <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h1>ESP32 Serial Data via WebSocket</h1>
       <div
         id="serial-output"
         ref={serialOutputRef}

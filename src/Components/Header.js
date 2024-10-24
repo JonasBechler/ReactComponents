@@ -1,4 +1,3 @@
-import MyScrollArea from "./MyScrollArea";
 
 const Header = ({ left, center, right, children }) => {
     return (

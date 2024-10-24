@@ -32,7 +32,7 @@ import MyChartExample from './Components/MyChartExample.js';
 import BatteyState from './Components/BatteryState.js';
 
 import SerialMonitorExample from './Components/SerialMonitorExample.js';
-
+import ESPWebSocket from './Components/ESPWebSocket.js';
 
 function App() {
   const [stringInput, setStringInput] = useState("");
@@ -251,6 +251,9 @@ function App() {
           </TemplateContainer>
           <TemplateContainer name='Chart'>
             <SerialMonitorExample/>
+          </TemplateContainer>
+          <TemplateContainer name='Chart'>
+            <ESPWebSocket/>
           </TemplateContainer>
         </div>
       </MyScrollArea>
