@@ -3,29 +3,42 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { Cross1Icon, CrossCircledIcon } from '@radix-ui/react-icons';
 import MyScrollArea from './MyScrollArea';
 
-import {clickable_classnames} from './BaseStyles'
+import { clickable_classnames } from './BaseStyles'
 
-const MyDialog = ({ children, title, icon, scrollable, onSave }) => {
+import {createGetText} from './BasicLanguage';
+
+const MyDialog = ({ children, title, info, icon, scrollable, onSave, onDiscard, language }) => {
     if (onSave === undefined) {
         onSave = () => { console.log("Save was pressed"); }
     }
+
+    const getText = createGetText(language?language:'en')
+
+    const vh = 70;
 
     return (
         <Dialog.Root>
             <Dialog.Trigger asChild>
                 <button className={`
                 inline-flex 
-                items-center justify-center 
-                h-[35px] 
+                items-center justify-start
+                h-[50px] 
                 rounded-[4px] 
                 leading-none 
                 gap-2
-                w-[200px]
-                text-lg
+                px-2
+                w-[250px]
                 `
-                + clickable_classnames}>
-                    {(icon !== undefined) ? React.cloneElement(icon, { className: "w-6 h-6" }) : <div />}
-                    {title}
+                    + clickable_classnames}>
+                    {(icon !== undefined) ? React.cloneElement(icon, { className: "min-w-8 min-h-8" }) : <div />}
+                    <div className="flex w-full flex-col">
+                        <div className="text-lg font-bold">
+                            {title}
+                        </div>
+                        <div className="text-xs text-gray-500">
+                            {info}
+                        </div>
+                    </div>
 
                 </button>
             </Dialog.Trigger>
@@ -36,36 +49,42 @@ const MyDialog = ({ children, title, icon, scrollable, onSave }) => {
                 fixed 
                 inset-0'
                 />
-                <Dialog.Content className='
-                h-[70vh] w-[70vw] 
+                <Dialog.Content className={`
+                h-[`+ vh +`vh] 
+                w-[70vw] 
                 fixed 
                 top-[50%] 
                 left-[50%] 
                 translate-x-[-50%] translate-y-[-50%] 
                 data-[state=open]:animate-contentShow 
                 rounded-[6px] 
-                bg-red-200
+                bg-white
                 shadow-black 
                 shadow-[0_1px_50px] 
-                p-[25px] 
+                p-[20px] 
                 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] 
                 focus:outline-none
-                '>
+                `}>
                     <Dialog.Title />
                     <Dialog.Description />
-                    <div className='
+                    <div className={`
                     flex flex-col 
-                    h-full
                     justify-center
-                    bg-red-300
-                    '>
-                        <div className='
+                    h-[`+ vh-5 +`vh]
+                    `}>
+                        <div className={`
                         flex 
                         justify-between items-center 
-                        h-[10%]
-                        '>
-                            <div className="text-lg font-bold pl-2">
-                                {title}
+                        px-1
+                        h-[6vh]
+                        `}>
+                            <div className="flex text-lg pl-2 gap-5">
+                                <div className='font-bold'>
+                                    {title}
+                                </div>
+                                <div className='text-gray-500'>
+                                    {info}
+                                </div>
                             </div>
                             <Dialog.Close asChild>
                                 <button
@@ -78,11 +97,15 @@ const MyDialog = ({ children, title, icon, scrollable, onSave }) => {
 
                                     aria-label="Close"
                                 >
-                                    <Cross1Icon className='w-6 h-6' />
+                                    <Cross1Icon className='w-5 h-5' />
                                 </button>
                             </Dialog.Close>
                         </div>
-                        <div className="flex h-[80%] ">
+                        <div className={`
+                        flex 
+                        flex-grow 
+                        h-[`+ (vh-17) +`vh]
+                        `}>
                             <div className="
                             flex
                             w-full h-full
@@ -90,39 +113,62 @@ const MyDialog = ({ children, title, icon, scrollable, onSave }) => {
                             bg-white
                             ">
                                 {scrollable
-                                ?
+                                    ?
                                     <MyScrollArea>
                                         {children}
                                     </MyScrollArea>
-                                :
+                                    :
                                     children
                                 }
                             </div>
                         </div>
                         <div
-                            className='
+                            className={`
                             flex 
                             justify-end 
                             items-center
-                            h-[10%]
-                            bg-red-300
-                            '>
+                            gap-2
+                            h-[6vh]
+                            px-1
 
-                            <Dialog.Close asChild>
-                                <button
-                                    className={`
+                            `}>
+
+                            {onDiscard ? (
+                                <Dialog.Close asChild>
+                                    <button
+                                        className={`
                                     flex
                                     items-center justify-center 
-                                    h-[35px] 
+                                    h-[5vh]
                                     bg-green-400 
                                     text-green11 
                                     rounded-[4px] 
                                     px-[15px] 
                                     leading-none 
-                                    `+ clickable_classnames }
+                                    `+ clickable_classnames}
+                                        onClick={onDiscard}
+                                    >
+                                        {getText("dialog_discard")}
+                                    </button>
+                                </Dialog.Close>
+                            ) : (
+                                <div />
+                            )}
+                            <Dialog.Close asChild>
+                                <button
+                                    className={`
+                                    flex
+                                    items-center justify-center 
+                                    h-[5vh] 
+                                    bg-green-400 
+                                    text-green11 
+                                    rounded-[4px] 
+                                    px-[15px] 
+                                    leading-none 
+                                    `+ clickable_classnames}
                                     onClick={onSave}
                                 >
-                                    Save changes
+                                    {getText("dialog_save")}
                                 </button>
                             </Dialog.Close>
                         </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Tabs from '@radix-ui/react-tabs';
 
-const MyTabs = ({ values, contents }) => {
+const MyTabs = ({ tab, setTab, values, display_values, contents }) => {
     if (values === undefined) {
         values = ['tab1', 'tab2'];
     }
@@ -12,6 +12,8 @@ const MyTabs = ({ values, contents }) => {
         ];
     }
 
+    const[_tab, _setTab] = React.useState(values[0]);
+
     return (
         <Tabs.Root
             className="
@@ -19,6 +21,8 @@ const MyTabs = ({ values, contents }) => {
             w-full h-full
             "
             defaultValue={values[0]}
+            value={(tab!==undefined)?tab:_tab}
+            onValueChange={setTab!==undefined?setTab:_setTab}
         >
             <Tabs.List
                 className="
@@ -47,7 +51,7 @@ const MyTabs = ({ values, contents }) => {
                             key={index}
                             value={value}
                         >
-                            {value}
+                            {display_values?display_values[index]:value}
                         </Tabs.Trigger>
                     ))
                 }

@@ -6,15 +6,16 @@ import HoverInfo from './HoverInfo';
 
 import {clickable_classnames} from './BaseStyles.js'
 
-const MyCollapsible = ({ children, name, info }) => {
-	const [open, setOpen] = React.useState(false);
+const MyCollapsible = ({ children, name, info, open, setOpen }) => {
+	const [_open, _setOpen] = React.useState(false);
 	return (
 		<Collapsible.Root
 			className='
 			w-full 
 			'
-			open={open}
-			onOpenChange={setOpen}>
+			open={(open!==undefined)?open:_open}
+			onOpenChange={(setOpen!==undefined)?setOpen:_setOpen}
+			>
 
 			<div
 				className='
@@ -90,6 +91,6 @@ const MyCollapsible = ({ children, name, info }) => {
 			</Collapsible.Content>
 		</Collapsible.Root>
 	);
-};
+}
 
 export default MyCollapsible;

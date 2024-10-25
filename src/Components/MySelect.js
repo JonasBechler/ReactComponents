@@ -25,18 +25,19 @@ const MySelect = ({ option_values, option_texts, option_extras, placeholder, val
         flex-col">
             <Select.Trigger
                 className={`
-                flex 
-                flex-grow 
-                items-center justify-between 
-                pl-[25px] 
-                pr-[10px] 
-                leading-none 
-                h-8 
-                data-[placeholder]:text-violet9 
-                rounded-md 
-                text-lg
-                `+ clickable_classnames}
-            >
+                    flex 
+                    flex-grow 
+                    items-center justify-between 
+                    pl-[25px] 
+                    pr-[10px] 
+                    leading-none 
+                    h-8 
+                    data-[placeholder]:text-violet9 
+                    rounded-md 
+                    text-lg
+                    min-w-[90px]
+                    `+ clickable_classnames}
+                    >
                 <Select.Value placeholder={placeholder} />
                 <Select.Icon className="text-violet11">
                     <ChevronDownIcon />

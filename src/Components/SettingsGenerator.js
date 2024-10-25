@@ -9,15 +9,24 @@ import MyLabel from './MyLabel.js';
 import MyDialog from './MyDialog.js';
 import MyScrollArea from './MyScrollArea.js';
 
+import { createGetText } from './BasicLanguage.js';
 
 
 
 
-const SettingsGenerator = React.forwardRef(({ config, initial_settings, onSave }, ref) => {
+
+const SettingsGenerator = React.forwardRef(({ config, initial_settings, onSave, language }, ref) => {
+    if (initial_settings === undefined) {
+        initial_settings = {};
+    }
 
 
+    const [modified, setModified] = React.useState(false);
     const [settings, setSettings] = React.useState(initial_settings);
     const setSetting = (setting, value) => {
+        const new_settings = { ...settings, [setting]: value }
+
+        setModified(JSON.stringify(new_settings) !== JSON.stringify(initial_settings));        
         setSettings({ ...settings, [setting]: value });
     }
 
@@ -29,9 +38,17 @@ const SettingsGenerator = React.forwardRef(({ config, initial_settings, onSave }
         onSave = () => console.log(settings)
     }
 
-    const onSaveFunction = () => {
+    const onSaveFunc = () => {
+        setModified(false);
         onSave(settings);
     }
+
+    const onDiscardFunc = () => {
+        setModified(false);
+        setSettings(initial_settings)
+    }
+
+    const getText = createGetText(language?language:'en')
 
     const create_Input = (subsetting) => {
         if (subsetting.type === "bool") {
@@ -89,19 +106,23 @@ const SettingsGenerator = React.forwardRef(({ config, initial_settings, onSave }
 
     return (
         <MyDialog
-            title={config.name}
+            title={config.name[language]}
+            info={modified ? getText("settings_changed") : <div />}
             icon={<GearIcon />}
             scrollable={true}
-            onSave={() => onSaveFunction()}
+            onSave={() => onSaveFunc()}
+            onDiscard={() => onDiscardFunc()}
+            language={language}
         >
+            {config.description[language]}
 
             {
                 config.subsettings.map((subsetting, index) => {
                     return (
                         <div key={"subsetting_" + config.id + "_" + subsetting.id}>
                             <MyLabel
-                                name={subsetting.name}
-                                info={subsetting.description}
+                                name={subsetting.name[language]}
+                                info={subsetting.description[language]}
                                 id={config.id + "_" + subsetting.id}
                             >
                                 {create_Input(subsetting)}
