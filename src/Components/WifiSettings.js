@@ -15,12 +15,17 @@ import {createGetText} from './BasicLanguage.js';
 
 
 const WifiSettings = ({ initial_settings, available_ssids, onSave, language }) => {
+
+    
     if (available_ssids === undefined) {
         available_ssids = [];
     }
+    
 
     const getSettings = () => {
         let new_settings = {};
+        
+        
         if (initial_settings !== undefined) {
             new_settings.client_active = (initial_settings.client_active === undefined) ? false : initial_settings.client_active;
     

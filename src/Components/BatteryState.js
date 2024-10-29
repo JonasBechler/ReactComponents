@@ -7,20 +7,20 @@ const BatteyState = ({ value, unit }) => {
     return (
         <div className="
             flex 
-            items-center justify-between 
+            items-center justify-center
             gap-2 
             min-w-[100px]
             ">
 
-            <LightningBoltIcon className="w-6 h-6" />
             <div className="flex gap-1">
                 <div className="flex justify-end">
                     {value}
                 </div>
-                <div className="flex justify-start w-8">
+                <div className="flex justify-start">
                     {unit}
                 </div>
             </div>
+            <LightningBoltIcon className="w-6 h-6" />
         </div>
     );
 }

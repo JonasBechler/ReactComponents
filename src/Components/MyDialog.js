@@ -30,9 +30,9 @@ const MyDialog = ({ children, title, info, icon, scrollable, onSave, onDiscard, 
                 w-[250px]
                 `
                     + clickable_classnames}>
-                    {(icon !== undefined) ? React.cloneElement(icon, { className: "min-w-8 min-h-8" }) : <div />}
+                    {(icon !== undefined) ? React.cloneElement(icon, { className: "min-w-6 min-h-6" }) : <div />}
                     <div className="flex w-full flex-col">
-                        <div className="text-lg font-bold">
+                        <div className="">
                             {title}
                         </div>
                         <div className="text-xs text-gray-500">

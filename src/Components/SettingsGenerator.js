@@ -8,6 +8,8 @@ import NumberInput from './NumberInput.js';
 import MyLabel from './MyLabel.js';
 import MyDialog from './MyDialog.js';
 import MyScrollArea from './MyScrollArea.js';
+import WifiSettings from './WifiSettings.js';
+import MySelect from './MySelect.js';
 
 import { createGetText } from './BasicLanguage.js';
 
@@ -26,13 +28,13 @@ const SettingsGenerator = React.forwardRef(({ config, initial_settings, onSave, 
     const setSetting = (setting, value) => {
         const new_settings = { ...settings, [setting]: value }
 
-        setModified(JSON.stringify(new_settings) !== JSON.stringify(initial_settings));        
+        setModified(JSON.stringify(new_settings) !== JSON.stringify(initial_settings));
         setSettings({ ...settings, [setting]: value });
     }
 
     if (config === undefined) {
         return (<div> no config </div>)
-    }    
+    }
 
     if (onSave === undefined) {
         onSave = () => console.log(settings)
@@ -48,7 +50,7 @@ const SettingsGenerator = React.forwardRef(({ config, initial_settings, onSave, 
         setSettings(initial_settings)
     }
 
-    const getText = createGetText(language?language:'en')
+    const getText = createGetText(language ? language : 'en')
 
     const create_Input = (subsetting) => {
         if (subsetting.type === "bool") {
@@ -73,7 +75,7 @@ const SettingsGenerator = React.forwardRef(({ config, initial_settings, onSave, 
             if (subsetting.min === undefined) {
                 subsetting.min = 0;
             }
-    
+
             return (
                 <NumberInput
                     key={'input_' + config.id + "_" + subsetting.id}
@@ -86,7 +88,19 @@ const SettingsGenerator = React.forwardRef(({ config, initial_settings, onSave, 
                 />
             );
         }
-        else {            
+        if (subsetting.type === "select") {
+            return (
+                <MySelect
+                    key={'input_' + config.id + "_" + subsetting.id}
+                    option_values={subsetting.options}
+                    option_texts={subsetting.options}
+                    value={settings[subsetting.id]}
+                    setValue={(value) => setSetting(subsetting.id, value)}
+                />
+            );
+                
+        }
+        else {
             return (
                 <TextInput
                     key={'input_' + config.id + "_" + subsetting.id}
@@ -101,7 +115,6 @@ const SettingsGenerator = React.forwardRef(({ config, initial_settings, onSave, 
         }
 
     }
-
 
 
     return (
