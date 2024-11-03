@@ -4,7 +4,7 @@ var W3CWebSocket = require('websocket').w3cwebsocket;
 
 export const ESPContext = createContext(null);
 
-const ESPWebSocket = forwardRef(({ ip, onReceiveData, children }, ref) => {
+const ESPWebSocket = ({ ip, onReceiveData, children }) => {
 
 
   if (ip === undefined) {
@@ -17,17 +17,18 @@ const ESPWebSocket = forwardRef(({ ip, onReceiveData, children }, ref) => {
   const [lastPing, setLastPing] = useState(null);
 
 
-  const ping_timeout = 8000;
   const retry_interval = 5000;
 
   const [settings, setSettings] = React.useState(null);
   const [settingsConfig, setSettingsConfig] = React.useState(null);
   const [info, setInfo] = React.useState(null);
 
+  const [wsWaitTimeout, setWsWaitTimeout] = React.useState(null);
+
+
 
   // Function to connect to WebSocket
   const connectWebSocket = () => {
-
     if (ws) {
       ws.close();
     }
@@ -63,8 +64,8 @@ const ESPWebSocket = forwardRef(({ ip, onReceiveData, children }, ref) => {
       }
 
       else if (json_data.type === "info") {
-        //console.log("info received");
-        //console.log(json_data);
+        console.log("info received");
+        console.log(json_data);
         
         setInfo(json_data.data);
       }
@@ -100,7 +101,8 @@ const ESPWebSocket = forwardRef(({ ip, onReceiveData, children }, ref) => {
 
   // Establish WebSocket connection when component mounts
   useEffect(() => {
-    connectWebSocket();
+    console.log('i fire once');
+    setTimeout(() => connectWebSocket(), 10);
 
     return () => {
       if (ws) {
@@ -111,26 +113,6 @@ const ESPWebSocket = forwardRef(({ ip, onReceiveData, children }, ref) => {
   }, []);  // Run on component mount (empty dependency array)
 
 
-  // start interval for ping check
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (lastPing && wsConnected) {
-        const time = new Date().getTime() - lastPing;
-
-        if (time > ping_timeout) {
-          console.log('Ping Timeout, the device is not responding');
-          setWsConnected(false);
-          ws.close();
-          //setTimeout(() => connectWebSocket(), retry_interval);  // Reconnect after 3 seconds
-          clearInterval(interval);
-        }
-      }
-    }, 1000);
-
-    //setReconnectInterval(interval);
-
-    return () => clearInterval(interval);
-  }, [lastPing]);
 
   const sendData = (type, data) => {
     let data_json = {
@@ -139,8 +121,13 @@ const ESPWebSocket = forwardRef(({ ip, onReceiveData, children }, ref) => {
     }
 
     if (ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify(data_json));
-      //console.log("Data sent: ", data_json);
+      if (wsWaitTimeout) {
+        clearTimeout(wsWaitTimeout);
+      }
+      setWsWaitTimeout(setTimeout(() => {
+        console.log("Data sent: ", data_json);
+        ws.send(JSON.stringify(data_json));
+      }, 100));
 
       return true;
     }
@@ -182,6 +169,6 @@ const ESPWebSocket = forwardRef(({ ip, onReceiveData, children }, ref) => {
     </ESPContext.Provider>
   );
 }
-);
+
 
 export default ESPWebSocket;

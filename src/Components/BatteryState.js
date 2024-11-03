@@ -2,7 +2,7 @@ import { LightningBoltIcon } from '@radix-ui/react-icons';
 
 const BatteyState = ({ value, unit }) => {
     if (value === undefined) {
-        return (<div/>);
+        value = 0;
     }
     return (
         <div className="

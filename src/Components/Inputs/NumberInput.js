@@ -1,5 +1,5 @@
 import { PlusIcon, MinusIcon } from '@radix-ui/react-icons'
-import { clickable_classnames } from './BaseStyles.js'
+import { clickable_classnames } from '../BaseStyles.js'
 
 const NumberInput = ({ increment, max, min, unit, value, setValue }) => {
 

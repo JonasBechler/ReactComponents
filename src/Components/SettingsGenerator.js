@@ -2,9 +2,9 @@ import React from 'react';
 import { GearIcon, Cross2Icon, ReloadIcon, LockOpen2Icon, LockClosedIcon } from '@radix-ui/react-icons'
 
 
-import TextInput from './TextInput.js';
-import BoolInput from './BoolInput.js';
-import NumberInput from './NumberInput.js';
+import TextInput from './Inputs/TextInput.js';
+import BoolInput from './Inputs/SwitchInput.js';
+import NumberInput from './Inputs/NumberInput.js';
 import MyLabel from './MyLabel.js';
 import MyDialog from './MyDialog.js';
 import MyScrollArea from './MyScrollArea.js';

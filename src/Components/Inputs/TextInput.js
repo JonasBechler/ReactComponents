@@ -1,5 +1,5 @@
 
-import { clickable_classnames } from "./BaseStyles";
+import { clickable_classnames } from "../BaseStyles";
 const TextInput = ({ id, type, placeholder, value, setValue }) => {
     
     const RegEx = {

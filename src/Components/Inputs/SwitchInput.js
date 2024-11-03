@@ -1,8 +1,8 @@
 import * as Switch from '@radix-ui/react-switch';
 
-import {clickable_classnames} from './BaseStyles.js'
+import {clickable_classnames} from '../BaseStyles.js'
 
-const BoolInput = ({ id, value, setValue }) => {
+const SwitchInput = ({ id, value, setValue }) => {
     return (
         <div className='flex items-center'>
             <Switch.Root
@@ -38,4 +38,4 @@ const BoolInput = ({ id, value, setValue }) => {
     );
 }
 
-export default BoolInput;
+export default SwitchInput;

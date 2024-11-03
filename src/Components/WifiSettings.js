@@ -4,11 +4,11 @@ import { GearIcon } from '@radix-ui/react-icons';
 import MyDialog from './MyDialog';
 import MyLabel from './MyLabel.js';
 import MySelect from './MySelect.js';
-import TextInput from './TextInput.js';
+import TextInput from './Inputs/TextInput.js';
 
 import MyTabs from './MyTabs.js';
 import MyCollapsible from './MyCollapsible.js';
-import BoolInput from './BoolInput.js';
+import BoolInput from './Inputs/SwitchInput.js';
 
 import { LockClosedIcon, LockOpen1Icon } from '@radix-ui/react-icons';
 import {createGetText} from './BasicLanguage.js';

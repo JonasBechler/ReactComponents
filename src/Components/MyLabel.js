@@ -3,26 +3,24 @@ import React from 'react';
 import HoverInfo from './HoverInfo';
 
 const MyLabel = ({ children, name, info, id }) => {
-
-    const get_random_color = () => {
-        const random_color = Math.floor(Math.random() * 16777215).toString(16);
-        return `#${random_color}`;
-    }
-
     return (
         <div className='
         flex wrap
-        w-full h-12 
+        w-full min-h-8
         gap-2'>
             <div className='
             flex 
             w-1/2 
             items-center justify-end'>
+                <div></div>
                 <div className='
-                flex flex-grow
-                items-center justify-end 
-                text-xl'
-                    htmlFor={"input_" + id}>
+                    flex flex-grow
+                    items-center justify-end 
+                    text-xl
+                    whitespace-nowrap'
+                    
+                    htmlFor={"input_" + id}
+                    >
 
                     {name}
                 </div>
