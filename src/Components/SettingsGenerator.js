@@ -52,7 +52,7 @@ const SettingsGenerator = React.forwardRef(({ config, initial_settings, onSave, 
 
     const getText = createGetText(language ? language : 'en')
 
-    const create_Input = (subsetting) => {
+    const create_Input = (subsetting, language) => {
         if (subsetting.type === "bool") {
 
             return (
@@ -92,8 +92,8 @@ const SettingsGenerator = React.forwardRef(({ config, initial_settings, onSave, 
             return (
                 <MySelect
                     key={'input_' + config.id + "_" + subsetting.id}
-                    option_values={subsetting.options}
-                    option_texts={subsetting.options}
+                    option_values={subsetting.option_values}
+                    option_texts={subsetting.option_texts[language]}
                     value={settings[subsetting.id]}
                     setValue={(value) => setSetting(subsetting.id, value)}
                 />
@@ -138,7 +138,7 @@ const SettingsGenerator = React.forwardRef(({ config, initial_settings, onSave, 
                                 info={subsetting.description[language]}
                                 id={config.id + "_" + subsetting.id}
                             >
-                                {create_Input(subsetting)}
+                                {create_Input(subsetting, language)}
                             </MyLabel>
                         </div>
                     );
